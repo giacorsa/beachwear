@@ -54,9 +54,9 @@ export class Cliente implements ICliente {
   }
 
   ordinaProdotto(prodotto: IProdotto): void {
-    if (prodotto.stato !== "disponibile") {
+    if (prodotto.stato === "esaurito") {
       console.log(
-        `Il prodotto ${prodotto.id} (${prodotto.tipo}) non è disponibile. Stato attuale: ${prodotto.stato}`,
+        `Il prodotto ${prodotto.id} (${prodotto.tipo}) non può essere ordinato perchè esaurito. Stato attuale: ${prodotto.stato}`,
       );
       return;
     }
@@ -221,8 +221,12 @@ processoTinturaSostenibile.aggiungiProdotto(cappelloWave);
 
 // Test logica di ordinazione
 
-// Cliente ordina un prodotto disponibile
+// Cliente ordina un prodotto disponibile RELAX-001
 clienteGianni.ordinaProdotto(costumeRelax);
+
+// Più clienti ordinano lo stesso prodotto costumeRelax RELAX-001, rilassato vincolo prodotto.stao !== disponibil ein === esaurito
+clienteSara.ordinaProdotto(costumeRelax);
+clientePablo.ordinaProdotto(costumeRelax);
 
 // Cliente prova a ordinare un prodotto esaurito
 clienteSara.ordinaProdotto(costumeExtreme);

@@ -8,8 +8,8 @@ export class Cliente {
         this.metodoPagamentoPreferito = metodoPagamentoPreferito;
     }
     ordinaProdotto(prodotto) {
-        if (prodotto.stato !== "disponibile") {
-            console.log(`Il prodotto ${prodotto.id} (${prodotto.tipo}) non è disponibile. Stato attuale: ${prodotto.stato}`);
+        if (prodotto.stato === "esaurito") {
+            console.log(`Il prodotto ${prodotto.id} (${prodotto.tipo}) non può essere ordinato perchè esaurito. Stato attuale: ${prodotto.stato}`);
             return;
         }
         prodotto.assegnaCliente(this);
@@ -76,6 +76,9 @@ processoTinturaSostenibile.aggiungiProdotto(cappelloWave);
 // Test logica di ordinazione
 // Cliente ordina un prodotto disponibile
 clienteGianni.ordinaProdotto(costumeRelax);
+// Più clienti ordinano lo stesso prodotto costumeRelax, rilassato vincolo prodotto.stao !== disponibil ein === esaurito
+clienteSara.ordinaProdotto(costumeRelax);
+clientePablo.ordinaProdotto(costumeRelax);
 // Cliente prova a ordinare un prodotto esaurito
 clienteSara.ordinaProdotto(costumeExtreme);
 // Cliente ordina un pareo
