@@ -1,7 +1,7 @@
 {
   "name": "beachwear",
   "version": "1.0.0",
-  "description": "Progetto TypeScript per gestione prodotti beachwear",
+  "description": "TypeScript project for managing beachwear products",
   "main": "dist/beachwear.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",

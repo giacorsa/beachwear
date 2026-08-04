@@ -1,144 +1,150 @@
 # Sunnee Beachwear
 
-Brand immaginario **Sunnee**, sviluppato in **TypeScript**.  
-Il progetto include entità, regole di business, stati e interazioni tra oggetti (Cliente, Prodotto, ProcessoProduzione).
+Imaginary brand **Sunnee**, developed in **TypeScript**.  
+The project includes entities, business rules, states, and interactions between objects (Customer, Product, ProductionProcess).
 
 ---
 
-## 📦 Struttura del progetto
+## 📦 Project structure
 
-Il file principale del dominio è:
+The main domain file is:
 
 beachwear.ts
 
-Il progetto può essere eseguito:
+The project can be executed:
 
-- direttamente su **CodePen**  
-- oppure in un ambiente **TypeScript + Node.js** locale tramite `tsc` e `node`.
+- directly on **CodePen**  
+- or in a local **TypeScript + Node.js** environment using `tsc` e `node`.
 
 ---
 
-## 🌐 Esecuzione su CodePen
+## 🌐 Running on CodePen
 
-Il progetto è disponibile anche online:
+The project is also available :
 
 👉 **https://codepen.io/editor/gianni-corsato/pen/019fba02-4789-78a8-9601-c91cf012f6e4**
 
-Su CodePen è sufficiente:
+On CodePen you simply need:
 
-- incollare il contenuto di `beachwear.ts`
-- rimuovere gli `export` (CodePen non supporta moduli ES6)
-- selezionare **TypeScript** come preprocessore
+- paste the content of `beachwear.ts`
+- remove all `export` (CodePen doesn't support ES6 modules)
+- select **TypeScript** as the processor
 
 ---
 
-## 🛠 Requisiti per esecuzione locale
+## 🛠 Requirement for local Execution
 
-Per eseguire il progetto in locale:
+To run the project locally:
 
-- **Node.js** (versione 18+ consigliata)
-- **TypeScript** installato globalmente:
+- **Node.js** (version 18+ recommended)
+- **TypeScript** installed globally:
 
 npm install -g typescript
 
-•	Visual Studio Code (consigliato)
+•	Visual Studio Code (recommended)
 
 ---
 
-## 📁 Struttura delle cartelle
+## 📁 Folder Structure
 
-Il progetto utilizza una struttura semplice:
+The project uses a simple structure:
 
 ``
 /src
   beachwear.ts
 /tsconfig.json
 /dist
-  beachwear.js   (generato automaticamente)
+  beachwear.js   (generated automatically)
 ``
 ---
 
-## ⚙️ Configurazione TypeScript (tsconfig.json)
+## ⚙️ TypeScript Configuration file (tsconfig.json)
 
-Per compilare correttamente il file beachwear.ts, è necessario creare un file tsconfig.json nella root del progetto.
+To correctly compile the `beachwear.ts` file, you must create a `tsconfig.json` file in the project root.
 
 Esempio di configurazione utilizzata:
 {
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "es6",
-    "target": "es6"
-  }
+    "module": "CommonJS",
+    "target": "ES2020",
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"]
 }
 
-Spiegazione delle opzioni principali
-•	rootDir Indica la cartella sorgente (src).
-•	outDir Indica la cartella di output (dist).
-•	forceConsistentCasingInFileNames Evita errori dovuti a differenze di maiuscole/minuscole nei percorsi.
-•	module: es6 Compila il codice usando moduli ES6.
-•	target: es6 Genera JavaScript moderno compatibile con Node.js.
+Explanation of the main options:
+•	rootDir: Specifies the source folder (src).
+•	outDir: Specifies the output folder (dist).
+•	forceConsistentCasingInFileNames:  Prevents errors caused by inconsistent filename casing.
+•	module: This option tells TypeScript to generate JavaScript files that use the CommonJS module system, which is the default module format used by Node.js
+•	target: This option defines the version of JavaScript that TypeScript should output.
 
 ---
 
-## 🧱 Compilazione del progetto
+## 🧱 Project Compilation
 
-Dopo aver creato tsconfig.json, puoi compilare il progetto da terminale VSCode:
+After creating tsconfig.json, you can compile the project from the VSCode terminal:
 tsc -p tsconfig.json
 
-Questo comando:
-•	legge la configurazione del compilatore
-•	compila src/beachwear.ts
-•	genera dist/beachwear.js
+This command:
+•	reads the compiler configuration
+•	compiles src/beachwear.ts
+•	generates dist/beachwear.js
 
 ---
 
-## ▶️ Esecuzione del progetto
+## ▶️ Runnig the Project
 
-Una volta compilato, puoi eseguire il file JavaScript generato:
+Once compiled, you can run the generated JavaScript file:
 node .\dist\beachwear.js
 
-Oppure su macOS/Linux:
+On macOS/Linux:
 node ./dist/beachwear.js
 
 ---
 
-## 🧩 Funzionalità principali
+## 🧩 main features
 
-•	Creazione dinamica di prodotti (costumi, parei, cappelli, occhiali da sole)
-•	Gestione dello stato del prodotto (disponibile, esaurito, ordinato)
-•	Ordinazione dei prodotti da parte dei clienti
-•	Assegnazione dei prodotti ai processi di produzione
-•	Stampa dello stato finale dei prodotti e dei processi di produzione
+•	Dynamic creation of products (swimsuits, pareos, hats, sunglasses)
+•	Product state management (available, out of stock, ordered)
+•	Customers ordering products
+•	Assigning products to production processes
+•	Printing the final state of products and production processes
 
 ---
 
-## 📚 Esempio di output
+## 📚 Example Output
 
-Cliente Gianni Corsato ha ordinato il prodotto RELAX-001
-Prodotto OCC-009 assegnato al cliente Pablo Picasso
+Product RELAX-001 assigned to customer Pablo Picasso. Status updated to "ordered".
+Customer Pablo Picasso ordered product RELAX-001 (swimsuit, size M, color ocean blue).
 ...
---- Stato finale prodotti ---
-RELAX-001 → ordinato (Gianni Corsato)
-PAREO-050 → ordinato (Sara Bianchi)
-OCC-009 → ordinato (Pablo Picasso)
+--- Final Product Status ---
+ID: RELAX-001, type: swimsuit, status: ordered, customer: Pablo Picasso
+...
+--- Products in Production Processes ---
+Process: Fishing Net Recycling
+  - RELAX-001 (swimsuit) – status: ordered
 
 ---
 
 ## 🐙 Repository GitHub
 
-Il progetto completo è disponibile qui:
+The complete project is available here:
 👉 https://github.com/giacorsa/beachwear (github.com in Bing)
 
 ---
 
 ## 👤 Autore
-Gianni Corsato (giacorsa) Progetto didattico di modellazione del dominio in TypeScript.
+Gianni Corsato (giacorsa) Educational project for domain modeling in TypeScript.
 
 ---
 
 ## 📄 Licenza
-MIT License: Puoi usare, modificare e distribuire liberamente il progetto.
+MIT License: You are free to use, modify, and distribute the project.
 
 ---

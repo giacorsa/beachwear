@@ -1,259 +1,259 @@
-// ---- Interfacce ----
+// ---- Interfaces ----
 
-export type TipoProdotto = "costume da bagno"  | "pareo"  | "cappello"  | "occhiali da sole";
-export type StatoProdotto = "disponibile" | "esaurito" | "ordinato";
-export type MetodoPagamento = "carta di credito"  | "paypal"  | "bonifico"  | "cash";
+export type ProductType = "swimsuit" | "pareo" | "hat" | "sunglasses";
+export type ProductStatus = "available" | "out of stock" | "ordered";
+export type PaymentMethod = "credit card" | "paypal" | "bank transfer" | "cash";
 
-export interface ICliente {
-  nome: string;
-  cognome: string;
+export interface ICustomer {
+  firstName: string;
+  lastName: string;
   email: string;
-  metodoPagamentoPreferito: MetodoPagamento;
+  preferredPaymentMethod: PaymentMethod;
 
-  ordinaProdotto(prodotto: IProdotto): void; // chiama prodotto.assegnaCliente()
+  orderProduct(product: IProduct): void; // calls product.assignCustomer()
 }
 
-export interface IProdotto {
-  tipo: TipoProdotto;
+export interface IProduct {
+  type: ProductType;
   id: string;
-  taglia: string;
-  colore: string;
-  stato: StatoProdotto;
+  size: string;
+  color: string;
+  status: ProductStatus;
 
-  clienteAssegnato?: ICliente;
+  assignedCustomer?: ICustomer;
 
-  assegnaCliente(cliente: ICliente): void;
+  assignCustomer(customer: ICustomer): void;
 }
 
-export interface IProcessoProduzione {
-  nomeProcesso: string;
-  descrizione: string;
-  prodottiInProduzione: IProdotto[];
+export interface IProductionProcess {
+  processName: string;
+  description: string;
+  productsInProcess: IProduct[];
 
-  aggiungiProdotto(prodotto: IProdotto): void;
+  addProduct(product: IProduct): void;
 }
 
-// ---- Classi ----
+// ---- Classes ----
 
-export class Cliente implements ICliente {
-  nome: string;
-  cognome: string;
+export class Customer implements ICustomer {
+  firstName: string;
+  lastName: string;
   email: string;
-  metodoPagamentoPreferito: MetodoPagamento;
+  preferredPaymentMethod: PaymentMethod;
 
   constructor(
-    nome: string,
-    cognome: string,
+    firstName: string,
+    lastName: string,
     email: string,
-    metodoPagamentoPreferito: MetodoPagamento,
+    preferredPaymentMethod: PaymentMethod,
   ) {
-    this.nome = nome;
-    this.cognome = cognome;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.email = email;
-    this.metodoPagamentoPreferito = metodoPagamentoPreferito;
+    this.preferredPaymentMethod = preferredPaymentMethod;
   }
 
-  ordinaProdotto(prodotto: IProdotto): void {
-    if (prodotto.stato === "esaurito") {
+  orderProduct(product: IProduct): void {
+    if (product.status === "out of stock") {
       console.log(
-        `Il prodotto ${prodotto.id} (${prodotto.tipo}) non può essere ordinato perchè esaurito. Stato attuale: ${prodotto.stato}`,
+        `Product ${product.id} (${product.type}) cannot be ordered because it is out of stock. Current status: ${product.status}`,
       );
       return;
     }
 
-    prodotto.assegnaCliente(this);
+    product.assignCustomer(this);
     console.log(
-      `Cliente ${this.nome} ${this.cognome} ha ordinato il prodotto ${prodotto.id} (${prodotto.tipo}, taglia ${prodotto.taglia}, colore ${prodotto.colore}).`,
+      `Customer ${this.firstName} ${this.lastName} ordered product ${product.id} (${product.type}, size ${product.size}, color ${product.color}).`,
     );
   }
 }
 
-export class Prodotto implements IProdotto {
-  tipo: TipoProdotto;
+export class Product implements IProduct {
+  type: ProductType;
   id: string;
-  taglia: string;
-  colore: string;
-  stato: StatoProdotto;
-  clienteAssegnato?: ICliente; // Proprietà opzionale
+  size: string;
+  color: string;
+  status: ProductStatus;
+  assignedCustomer?: ICustomer;
 
   constructor(
-    tipo: TipoProdotto,
+    type: ProductType,
     id: string,
-    taglia: string,
-    colore: string,
-    stato: StatoProdotto = "disponibile",
+    size: string,
+    color: string,
+    status: ProductStatus = "available",
   ) {
-    this.tipo = tipo;
+    this.type = type;
     this.id = id;
-    this.taglia = taglia;
-    this.colore = colore;
-    this.stato = stato;
+    this.size = size;
+    this.color = color;
+    this.status = status;
   }
 
-  assegnaCliente(cliente: ICliente): void {
-    this.clienteAssegnato = cliente;
-    this.stato = "ordinato";
+  assignCustomer(customer: ICustomer): void {
+    this.assignedCustomer = customer;
+    this.status = "ordered";
     console.log(
-      `Prodotto ${this.id} assegnato al cliente ${cliente.nome} ${cliente.cognome}. Stato aggiornato a "${this.stato}".`,
+      `Product ${this.id} assigned to customer ${customer.firstName} ${customer.lastName}. Status updated to "${this.status}".`,
     );
   }
 }
 
-export class ProcessoProduzione implements IProcessoProduzione {
-  nomeProcesso: string;
-  descrizione: string;
-  prodottiInProduzione: IProdotto[] = [];
+export class ProductionProcess implements IProductionProcess {
+  processName: string;
+  description: string;
+  productsInProcess: IProduct[] = [];
 
-  constructor(nomeProcesso: string, descrizione: string) {
-    this.nomeProcesso = nomeProcesso;
-    this.descrizione = descrizione;
+  constructor(processName: string, description: string) {
+    this.processName = processName;
+    this.description = description;
   }
 
-  aggiungiProdotto(prodotto: IProdotto): void {
-    this.prodottiInProduzione.push(prodotto);
+  addProduct(product: IProduct): void {
+    this.productsInProcess.push(product);
     console.log(
-      `Prodotto ${prodotto.id} (${prodotto.tipo}) aggiunto al processo "${this.nomeProcesso}".`,
+      `Product ${product.id} (${product.type}) added to process "${this.processName}".`,
     );
   }
 }
 
-// ---- Istanziazione e test ----
+// ---- Instantiation and tests ----
 
-const prodotti: IProdotto[] = [];
-const processi: IProcessoProduzione[] = [];
+const products: IProduct[] = [];
+const processes: IProductionProcess[] = [];
 
-// Prodotti di beachwear in plastica riciclata
-const costumeRelax = new Prodotto(
-  "costume da bagno",
+// Beachwear products made from recycled plastic
+const swimsuitRelax = new Product(
+  "swimsuit",
   "RELAX-001",
   "M",
-  "blu oceano",
-  "disponibile",
+  "ocean blue",
+  "available",
 );
-prodotti.push(costumeRelax);
+products.push(swimsuitRelax);
 
-const costumeActive = new Prodotto(
-  "costume da bagno",
+const swimsuitActive = new Product(
+  "swimsuit",
   "ACTIVE-010",
   "L",
-  "verde alghe",
-  "disponibile",
+  "seaweed green",
+  "available",
 );
-prodotti.push(costumeActive);
+products.push(swimsuitActive);
 
-const costumeExtreme = new Prodotto(
-  "costume da bagno",
+const swimsuitExtreme = new Product(
+  "swimsuit",
   "EXTREME-100",
   "S",
-  "nero profondo",
-  "esaurito",
+  "deep black",
+  "out of stock",
 );
-prodotti.push(costumeExtreme);
+products.push(swimsuitExtreme);
 
-const pareoSunrise = new Prodotto(
+const pareoSunrise = new Product(
   "pareo",
   "PAREO-050",
-  "taglia unica",
-  "corallo",
-  "disponibile",
+  "one size",
+  "coral",
+  "available",
 );
-prodotti.push(pareoSunrise);
+products.push(pareoSunrise);
 
-const cappelloWave = new Prodotto(
-  "cappello",
+const hatWave = new Product(
+  "hat",
   "CAP-007",
-  "taglia unica",
-  "sabbia",
-  "disponibile",
+  "one size",
+  "sand",
+  "available",
 );
-prodotti.push(cappelloWave);
+products.push(hatWave);
 
-const occhialiExtreme = new Prodotto(
-  "occhiali da sole",
+const sunglassesExtreme = new Product(
+  "sunglasses",
   "OCC-009",
-  "taglia unica",
-  "nero",
-  "disponibile",
+  "one size",
+  "black",
+  "available",
 );
-prodotti.push(occhialiExtreme);
+products.push(sunglassesExtreme);
 
-// Clienti del brand
-const clienteGianni = new Cliente(
+// Brand customers
+const customerGianni = new Customer(
   "Gianni",
   "Corsato",
   "gianni.corsato@example.com",
-  "carta di credito",
+  "credit card",
 );
-const clienteSara = new Cliente(
+const customerSara = new Customer(
   "Sara",
   "Bianchi",
   "sara.bianchi@example.com",
   "paypal",
 );
-const clientePablo = new Cliente(
+const customerPablo = new Customer(
   "Pablo",
   "Picasso",
   "pablo.picasso@artist.com",
   "cash",
 );
 
-// Processi di produzione sostenibile
-const processoRicicloReti = new ProcessoProduzione(
-  "Riciclo Reti da Pesca",
-  "Trasforma reti da pesca dismesse in filato riciclato per costumi Sunnee.",
+// Sustainable production processes
+const processNetRecycling = new ProductionProcess(
+  "Fishing Net Recycling",
+  "Transforms discarded fishing nets into recycled yarn for Sunnee swimsuits.",
 );
-processi.push(processoRicicloReti);
+processes.push(processNetRecycling);
 
-const processoTinturaSostenibile = new ProcessoProduzione(
-  "Tintura a Basso Impatto",
-  "Utilizza coloranti a basso impatto ambientale e ridotto consumo d'acqua.",
+const processLowImpactDyeing = new ProductionProcess(
+  "Low-Impact Dyeing",
+  "Uses environmentally friendly dyes with reduced water consumption.",
 );
-processi.push(processoTinturaSostenibile);
+processes.push(processLowImpactDyeing);
 
-// Aggiunta prodotti ai processi di produzione
-processoRicicloReti.aggiungiProdotto(costumeRelax);
-processoRicicloReti.aggiungiProdotto(costumeActive);
-processoRicicloReti.aggiungiProdotto(costumeExtreme);
-processoRicicloReti.aggiungiProdotto(occhialiExtreme);
+// Add products to production processes
+processNetRecycling.addProduct(swimsuitRelax);
+processNetRecycling.addProduct(swimsuitActive);
+processNetRecycling.addProduct(swimsuitExtreme);
+processNetRecycling.addProduct(sunglassesExtreme);
 
-processoTinturaSostenibile.aggiungiProdotto(pareoSunrise);
-processoTinturaSostenibile.aggiungiProdotto(cappelloWave);
+processLowImpactDyeing.addProduct(pareoSunrise);
+processLowImpactDyeing.addProduct(hatWave);
 
-// Test logica di ordinazione
+// Ordering logic tests
 
-// Cliente ordina un prodotto disponibile RELAX-001
-clienteGianni.ordinaProdotto(costumeRelax);
+// Customer orders an available product RELAX-001
+customerGianni.orderProduct(swimsuitRelax);
 
-// Più clienti ordinano lo stesso prodotto costumeRelax RELAX-001, rilassato vincolo prodotto.stao !== disponibil ein === esaurito
-clienteSara.ordinaProdotto(costumeRelax);
-clientePablo.ordinaProdotto(costumeRelax);
+// Multiple customers order the same product RELAX-001 (relaxed constraint: product.status !== available and === out of stock)
+customerSara.orderProduct(swimsuitRelax);
+customerPablo.orderProduct(swimsuitRelax);
 
-// Cliente prova a ordinare un prodotto esaurito
-clienteSara.ordinaProdotto(costumeExtreme);
+// Customer tries to order an out-of-stock product
+customerSara.orderProduct(swimsuitExtreme);
 
-// Cliente ordina un pareo
-clienteSara.ordinaProdotto(pareoSunrise);
+// Customer orders a pareo
+customerSara.orderProduct(pareoSunrise);
 
-// Cliente ordina gli occhiali da sole
-clientePablo.ordinaProdotto(occhialiExtreme);
+// Customer orders sunglasses
+customerPablo.orderProduct(sunglassesExtreme);
 
-// Stato finale dei prodotti
-console.log("\n--- Stato finale prodotti ---");
-prodotti.forEach((p) => {
+// Final product status
+console.log("\n--- Final Product Status ---");
+products.forEach((p) => {
   console.log(
-    `ID: ${p.id}, tipo: ${p.tipo}, stato: ${p.stato}, cliente: ${
-      p.clienteAssegnato
-        ? `${p.clienteAssegnato.nome} ${p.clienteAssegnato.cognome}`
-        : "nessuno"
+    `ID: ${p.id}, type: ${p.type}, status: ${p.status}, customer: ${
+      p.assignedCustomer
+        ? `${p.assignedCustomer.firstName} ${p.assignedCustomer.lastName}`
+        : "none"
     }`,
   );
 });
 
-// Stato dei processi di produzione
-console.log("\n--- Prodotti nei processi di produzione ---");
-processi.forEach((proc) => {
-  console.log(`Processo: ${proc.nomeProcesso}`);
-  proc.prodottiInProduzione.forEach((p) =>
-    console.log(`  - ${p.id} (${p.tipo}) – stato: ${p.stato}`),
+// Production process status
+console.log("\n--- Products in Production Processes ---");
+processes.forEach((proc) => {
+  console.log(`Process: ${proc.processName}`);
+  proc.productsInProcess.forEach((p) =>
+    console.log(`  - ${p.id} (${p.type}) – status: ${p.status}`),
   );
 });
