@@ -1,0 +1,17 @@
+{
+  "name": "beachwear",
+  "version": "1.0.0",
+  "description": "Progetto TypeScript per gestione prodotti beachwear",
+  "main": "dist/beachwear.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/beachwear.js",
+    "dev": "tsc -p tsconfig.json --watch"
+  },
+  "author": "Gianni Corsato",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
