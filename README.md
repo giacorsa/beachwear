@@ -49,13 +49,13 @@ npm install -g typescript
 
 The project uses a simple structure:
 
-``
+```
 /src
   beachwear.ts
 /tsconfig.json
 /dist
   beachwear.js   (generated automatically)
-``
+```
 ---
 
 ## ⚙️ TypeScript Configuration file (tsconfig.json)
@@ -63,6 +63,7 @@ The project uses a simple structure:
 To correctly compile the `beachwear.ts` file, you must create a `tsconfig.json` file in the project root.
 
 Esempio di configurazione utilizzata:
+```
 {
   "compilerOptions": {
     "rootDir": "./src",
@@ -76,14 +77,16 @@ Esempio di configurazione utilizzata:
   },
   "include": ["src"]
 }
+```
 
 Explanation of the main options:
+```
 •	rootDir: Specifies the source folder (src).
 •	outDir: Specifies the output folder (dist).
 •	forceConsistentCasingInFileNames:  Prevents errors caused by inconsistent filename casing.
 •	module: This option tells TypeScript to generate JavaScript files that use the CommonJS module system, which is the default module format used by Node.js
 •	target: This option defines the version of JavaScript that TypeScript should output.
-
+```
 ---
 
 ## 🧱 Project Compilation
@@ -101,25 +104,26 @@ This command:
 ## ▶️ Runnig the Project
 
 Once compiled, you can run the generated JavaScript file:
+```
 node .\dist\beachwear.js
 
 On macOS/Linux:
 node ./dist/beachwear.js
-
+```
 ---
 
 ## 🧩 main features
-
+```
 •	Dynamic creation of products (swimsuits, pareos, hats, sunglasses)
 •	Product state management (available, out of stock, ordered)
 •	Customers ordering products
 •	Assigning products to production processes
 •	Printing the final state of products and production processes
-
+```
 ---
 
 ## 📚 Example Output
-
+```
 Product RELAX-001 assigned to customer Pablo Picasso. Status updated to "ordered".
 Customer Pablo Picasso ordered product RELAX-001 (swimsuit, size M, color ocean blue).
 ...
@@ -131,7 +135,7 @@ Process: Fishing Net Recycling
   - RELAX-001 (swimsuit) – status: ordered
 
 ---
-
+```
 ## 🐙 Repository GitHub
 
 The complete project is available here:
